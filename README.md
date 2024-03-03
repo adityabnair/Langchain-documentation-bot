@@ -2,8 +2,9 @@
 This is a LangChain based AI chatbot that aims to demonstrate how the usage of a vector database and document loaders to parse several documents into indices can be combined with a front-end chat interface like 
 StreamLit to provide a seamless experience for anybody who wishes to enquire about LangChain and its coding practices.
 
-Fun fact: If ChatGPT is asked as of March 2024, what LangChain is, it will be unable to answer (or in the case of GPT 4 look up the internet) since its information about this topic is limited. This bot helps users
-who are new to LangChain and require an assistant of their own to help them through their LangChain coding journey.
+Fun fact: If ChatGPT is asked as of March 2024, what LangChain is, it will be unable to answer (or in the case of GPT 4 look up the internet) since its information about this topic is limited.
+![image](https://github.com/adityabnair/Langchain-documentation-bot/assets/64246274/517299e2-020b-4664-a191-1b4e1751c845)
+This bot helps users who are new to LangChain and require an assistant of their own to help them through their LangChain coding journey.
 The documentation folder for LangChain is slightly out of date as the latest one hosted at https://api.python.langchain.com/en/latest/langchain_api_reference.html seems to not allow direct downloads. However, this
 documentation data can be substituted as required. 
 
