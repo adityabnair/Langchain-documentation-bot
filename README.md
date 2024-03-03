@@ -7,10 +7,13 @@ Fun fact: If ChatGPT is asked as of March 2024, what LangChain is, it will be un
 This bot helps users who are new to LangChain and require an assistant of their own to help them through their LangChain coding journey.
 The documentation folder for LangChain is slightly out of date as the latest one hosted at https://api.python.langchain.com/en/latest/langchain_api_reference.html seems to not allow direct downloads. However, this documentation data can be substituted as required. There is also an attached python script using BeautifulSoup library which can be used to donwload documents. 
 
-The operation process is simple. The ingestion.py file gathers to locally downloaded documents which it then transfers to the relevant PineCone vector databases by splitting it into chunks, given the contextual 
-embeddings. Next the backend packages uses the ConversationalRetreivalQA chain from the LangChain library to preserve the memory of a session state's chat history to allow the chatbot to remember the context of 
-the conversation with the user. Finally the main.py file uses StreamLit library's inbuilt chat interface to allow the storage of three key components of the chat session state: the user's prompt history, the chat
-answer history (to allow the display of previous messages) and the overall chat history (to combine the prompts and the generated response). The source URL's are also attached at the end of every response to display where the bot was able to get the information from, which further enables the user to verify the same. 
+The operation process is simple. 
+1. The ingestion.py file gathers to locally downloaded documents which it then transfers to the relevant PineCone vector databases by splitting it into chunks, given the contextual 
+embeddings.
+2. The backend packages uses the ConversationalRetreivalQA chain from the LangChain library to preserve the memory of a session state's chat history to allow the chatbot to remember the context of 
+the conversation with the user.
+3. The main.py file uses StreamLit library's inbuilt chat interface to allow the storage of three key components of the chat session state: the user's prompt history, the chat
+answer history (to allow the display of previous messages) and the overall chat history (to combine the prompts and the generated response). The source URL's are also attached at the end of every response to display where the bot was able to get the information from, which further enables the user to verify the same.
 
 ## Screenshots
 ![image](https://github.com/adityabnair/Langchain-documentation-bot/assets/64246274/006270cd-6424-4079-af0b-bad9496ee66a)
