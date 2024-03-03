@@ -1,0 +1,1062 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>HuggingFace dataset loader &#8212; 🦜🔗 LangChain 0.0.148</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="/_/static/css/badge_only.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../../../_static/js/mendablesearch.js"></script>
+    <script async="async" src="/_/static/javascript/readthedocs-doc-embed.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/indexes/document_loaders/examples/hugging_face_dataset';</script>
+    <link rel="canonical" href="https://python.langchain.com/en/latest/modules/indexes/document_loaders/examples/hugging_face_dataset.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="iFixit" href="ifixit.html" />
+    <link rel="prev" title="HTML" href="html.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  
+<!-- RTD Extra Head -->
+
+<link rel="stylesheet" href="/_/static/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="application/json" id="READTHEDOCS_DATA">{"ad_free": false, "api_host": "https://readthedocs.org", "build_date": "2023-04-25T05:31:10Z", "builder": "sphinx", "canonical_url": null, "commit": "bee59b46", "docroot": "/docs/", "features": {"docsearch_disabled": false}, "global_analytics_code": "UA-17997319-1", "language": "en", "page": "modules/indexes/document_loaders/examples/hugging_face_dataset", "programming_language": "words", "project": "langchain", "proxied_api_host": "/_", "source_suffix": ".ipynb", "subprojects": {}, "theme": "sphinx_book_theme", "user_analytics_code": "", "version": "latest"}</script>
+
+<!--
+Using this variable directly instead of using `JSON.parse` is deprecated.
+The READTHEDOCS_DATA global variable will be removed in the future.
+-->
+<script type="text/javascript">
+READTHEDOCS_DATA = JSON.parse(document.getElementById('READTHEDOCS_DATA').innerHTML);
+</script>
+
+<script type="text/javascript" src="/_/static/javascript/readthedocs-analytics.js" async="async"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">🦜🔗 LangChain 0.0.148</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started/getting_started.html">Quickstart Guide</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../models.html">Models</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../models/llms.html">LLMs</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/llms/getting_started.html">Getting Started</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../models/llms/how_to_guides.html">Generic Functionality</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/async_llm.html">How to use the async API for LLMs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/custom_llm.html">How to write a custom LLM wrapper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/fake_llm.html">How (and why) to use the fake LLM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/llm_caching.html">How to cache LLM calls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/llm_serialization.html">How to serialize LLM classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/streaming_llm.html">How to stream LLM and Chat Model responses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/token_usage_tracking.html">How to track token usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../models/llms/integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/ai21.html">AI21</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/aleph_alpha.html">Aleph Alpha</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/anthropic_example.html">Anthropic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/azure_openai_example.html">Azure OpenAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/banana.html">Banana</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/cerebriumai_example.html">CerebriumAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/cohere.html">Cohere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/deepinfra_example.html">DeepInfra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/forefrontai_example.html">ForefrontAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/gooseai_example.html">GooseAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/gpt4all.html">GPT4All</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/huggingface_hub.html">Hugging Face Hub</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/huggingface_pipelines.html">Hugging Face Local Pipelines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/llamacpp.html">Llama-cpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/manifest.html">Manifest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/modal.html">Modal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/nlpcloud.html">NLP Cloud</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/openai.html">OpenAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/petals_example.html">Petals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/predictionguard.html">PredictionGuard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/promptlayer_openai.html">PromptLayer OpenAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/replicate.html">Replicate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/runhouse.html">Runhouse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/sagemaker.html">SageMakerEndpoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/stochasticai.html">StochasticAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/writer.html">Writer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/llms.html">Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../models/chat.html">Chat Models</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/chat/getting_started.html">Getting Started</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../models/chat/how_to_guides.html">How-To Guides</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/chat/examples/few_shot_examples.html">How to use few shot examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/chat/examples/streaming.html">How to stream responses</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../models/chat/integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/chat/integrations/azure_chat_openai.html">Azure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/chat/integrations/openai.html">OpenAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/chat/integrations/promptlayer_chatopenai.html">PromptLayer ChatOpenAI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../models/text_embedding.html">Text Embedding Models</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/aleph_alpha.html">Aleph Alpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/azureopenai.html">AzureOpenAI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/cohere.html">Cohere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/fake.html">Fake Embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/huggingfacehub.html">Hugging Face Hub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/instruct_embeddings.html">InstructEmbeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/jina.html">Jina</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/llamacpp.html">Llama-cpp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/openai.html">OpenAI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/sagemaker-endpoint.html">SageMaker Endpoint Embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/self-hosted.html">Self Hosted Embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/sentence_transformers.html">Sentence Transformers Embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/tensorflowhub.html">TensorflowHub</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../prompts.html">Prompts</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../prompts/prompt_templates.html">Prompt Templates</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/prompt_templates/getting_started.html">Getting Started</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../prompts/prompt_templates/how_to_guides.html">How-To Guides</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../prompts/prompt_templates/examples/custom_prompt_template.html">How to create a custom prompt template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../prompts/prompt_templates/examples/few_shot_examples.html">How to create a prompt template that uses few shot examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../prompts/prompt_templates/examples/partial.html">How to work with partial Prompt Templates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../prompts/prompt_templates/examples/prompt_serialization.html">How to serialize prompts</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../reference/prompts.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/modules/prompts.html">PromptTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/modules/example_selector.html">Example Selector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/modules/output_parsers.html">Output Parsers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../prompts/chat_prompt_template.html">Chat Prompt Template</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../prompts/example_selectors.html">Example Selectors</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/example_selectors/examples/custom_example_selector.html">How to create a custom example selector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/example_selectors/examples/length_based.html">LengthBased ExampleSelector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/example_selectors/examples/mmr.html">Maximal Marginal Relevance ExampleSelector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/example_selectors/examples/ngram_overlap.html">NGram Overlap ExampleSelector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/example_selectors/examples/similarity.html">Similarity ExampleSelector</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../prompts/output_parsers.html">Output Parsers</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/output_parsers/getting_started.html">Output Parsers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/output_parsers/examples/comma_separated.html">CommaSeparatedListOutputParser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/output_parsers/examples/output_fixing_parser.html">OutputFixingParser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/output_parsers/examples/pydantic.html">PydanticOutputParser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/output_parsers/examples/retry.html">RetryOutputParser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/output_parsers/examples/structured.html">Structured Output Parser</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../indexes.html">Indexes</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../../document_loaders.html">Document Loaders</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="CoNLL-U.html">CoNLL-U</a></li>
+<li class="toctree-l3"><a class="reference internal" href="airbyte_json.html">Airbyte JSON</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apify_dataset.html">Apify Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="azlyrics.html">AZLyrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="azure_blob_storage_container.html">Azure Blob Storage Container</a></li>
+<li class="toctree-l3"><a class="reference internal" href="azure_blob_storage_file.html">Azure Blob Storage File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bigquery.html">BigQuery Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bilibili.html">Bilibili</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blackboard.html">Blackboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chatgpt_loader.html">ChatGPT Data Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="college_confidential.html">College Confidential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="confluence.html">Confluence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copypaste.html">Copy Paste</a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv.html">CSV Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataframe.html">DataFrame Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="diffbot.html">Diffbot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directory_loader.html">Directory Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="discord_loader.html">Discord</a></li>
+<li class="toctree-l3"><a class="reference internal" href="duckdb.html">DuckDB Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="email.html">Email</a></li>
+<li class="toctree-l3"><a class="reference internal" href="epub.html">EPubs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="evernote.html">EverNote</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facebook_chat.html">Facebook Chat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="figma.html">Figma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gcs_directory.html">GCS Directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gcs_file.html">GCS File Storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git.html">Git</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gitbook.html">GitBook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="googledrive.html">Google Drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gutenberg.html">Gutenberg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hn.html">Hacker News</a></li>
+<li class="toctree-l3"><a class="reference internal" href="html.html">HTML</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">HuggingFace dataset loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ifixit.html">iFixit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="image.html">Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_captions.html">Image captions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imsdb.html">IMSDb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="markdown.html">Markdown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebook.html">Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notion.html">Notion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notiondb.html">Notion DB Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="obsidian.html">Obsidian</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pdf.html">PDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="powerpoint.html">PowerPoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readthedocs_documentation.html">ReadTheDocs Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roam.html">Roam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="s3_directory.html">s3 Directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="s3_file.html">s3 File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sitemap.html">Sitemap Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slack_directory.html">Slack (Local Exported Zipfile)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="srt.html">Subtitle Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="telegram.html">Telegram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="twitter.html">Twitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unstructured_file.html">Unstructured File Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="url.html">URL</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="web_base.html">Web Base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="whatsapp_chat.html">WhatsApp Chat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="word_document.html">Word Documents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="youtube.html">YouTube</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../text_splitters.html">Text Splitters</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-17"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/getting_started.html">Getting Started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/character_text_splitter.html">Character Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/huggingface_length_function.html">Hugging Face Length Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/latex.html">Latex Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/markdown.html">Markdown Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/nltk.html">NLTK Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/python.html">Python Code Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/recursive_text_splitter.html">RecursiveCharacterTextSplitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/spacy.html">Spacy Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/tiktoken.html">tiktoken (OpenAI) Length Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/tiktoken_splitter.html">TiktokenText Splitter</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../vectorstores.html">Vectorstores</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-18"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/getting_started.html">Getting Started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/analyticdb.html">AnalyticDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/annoy.html">Annoy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/atlas.html">AtlasDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/chroma.html">Chroma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/deeplake.html">Deep Lake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/elasticsearch.html">ElasticSearch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/faiss.html">FAISS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/milvus.html">Milvus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/myscale.html">MyScale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/opensearch.html">OpenSearch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/pgvector.html">PGVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/pinecone.html">Pinecone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/qdrant.html">Qdrant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/redis.html">Redis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/supabase.html">SupabaseVectorStore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/weaviate.html">Weaviate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/zilliz.html">Zilliz</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../retrievers.html">Retrievers</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-19"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/chatgpt-plugin-retriever.html">ChatGPT Plugin Retriever</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/contextual-compression.html">Contextual Compression Retriever</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/databerry.html">Databerry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/elastic_search_bm25.html">ElasticSearch BM25</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/metal.html">Metal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/pinecone_hybrid_search.html">Pinecone Hybrid Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/svm_retriever.html">SVM Retriever</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/tf_idf_retriever.html">TF-IDF Retriever</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/time_weighted_vectorstore.html">Time Weighted VectorStore Retriever</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/vectorstore-retriever.html">VectorStore Retriever</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/weaviate-hybrid.html">Weaviate Hybrid Search</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../memory.html">Memory</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-20"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../memory/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../memory/how_to_guides.html">How-To Guides</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-21"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/buffer.html">ConversationBufferMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/buffer_window.html">ConversationBufferWindowMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/entity_summary_memory.html">Entity Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/kg.html">Conversation Knowledge Graph Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/summary.html">ConversationSummaryMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/summary_buffer.html">ConversationSummaryBufferMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/token_buffer.html">ConversationTokenBufferMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/vectorstore_retriever_memory.html">VectorStore-Backed Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/adding_memory.html">How to add Memory to an LLMChain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/adding_memory_chain_multiple_inputs.html">How to add memory to a Multi-Input Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/agent_with_memory.html">How to add Memory to an Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/agent_with_memory_in_db.html">Adding Message Memory backed by a database to an Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/conversational_customization.html">How to customize conversational memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/custom_memory.html">How to create a custom Memory class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/motorhead_memory.html">Motörhead Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/multiple_memory.html">How to use multiple memory classes in the same chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/postgres_chat_message_history.html">Postgres Chat Message History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/redis_chat_message_history.html">Redis Chat Message History</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../chains.html">Chains</a><input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-22"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../chains/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../chains/how_to_guides.html">How-To Guides</a><input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-23"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/generic/async_chain.html">Async API for Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/generic/from_hub.html">Loading from LangChainHub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/generic/llm_chain.html">LLM Chain</a></li>
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/generic/sequential_chains.html">Sequential Chains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/generic/serialization.html">Serialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/generic/transformation.html">Transformation Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/analyze_document.html">Analyze Document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/chat_vector_db.html">Chat Over Documents with Chat History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/graph_qa.html">Graph QA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/hyde.html">Hypothetical Document Embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/qa_with_sources.html">Question Answering with Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/question_answering.html">Question Answering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/summarize.html">Summarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/vector_db_qa.html">Retrieval Question/Answering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/vector_db_qa_with_sources.html">Retrieval Question Answering with Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/vector_db_text_generation.html">Vector DB Text Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/api.html">API Chains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/constitutional_chain.html">Self-Critique Chain with Constitutional AI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/llm_bash.html">BashChain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/llm_checker.html">LLMCheckerChain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/llm_math.html">LLM Math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/llm_requests.html">LLMRequestsChain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/llm_summarization_checker.html">LLMSummarizationCheckerChain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/moderation.html">Moderation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/openapi.html">OpenAPI Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/pal.html">PAL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/sqlite.html">SQL Chain example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/modules/chains.html">Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../agents.html">Agents</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-24"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../agents/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../agents/tools.html">Tools</a><input class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-25"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/getting_started.html">Getting Started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/custom_tools.html">Defining Custom Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/multi_input_tool.html">Multi-Input Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/tool_input_validation.html">Tool Input Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/apify.html">Apify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/arxiv.html">Arxiv API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/bash.html">Bash</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/bing_search.html">Bing Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/chatgpt_plugins.html">ChatGPT Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/ddg.html">DuckDuckGo Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/google_places.html">Google Places</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/google_search.html">Google Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/google_serper.html">Google Serper API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/gradio_tools.html">Gradio Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/human_tools.html">Human as a tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/ifttt.html">IFTTT WebHooks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/openweathermap.html">OpenWeatherMap API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/python.html">Python REPL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/requests.html">Requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/search_tools.html">Search Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/searx_search.html">SearxNG Search API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/serpapi.html">SerpAPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/wikipedia.html">Wikipedia API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/wolfram_alpha.html">Wolfram Alpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/zapier.html">Zapier Natural Language Actions API</a></li>
+
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../agents/agents.html">Agents</a><input class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-26"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/agent_types.html">Agent Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/custom_agent.html">Custom Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/custom_llm_agent.html">Custom LLM Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/custom_llm_chat_agent.html">Custom LLM Agent (with a ChatModel)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/custom_mrkl_agent.html">Custom MRKL Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/custom_multi_action_agent.html">Custom MultiAction Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/custom_agent_with_tool_retrieval.html">Custom Agent with Tool Retrieval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/examples/chat_conversation_agent.html">Conversation Agent (for Chat Models)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/examples/conversational_agent.html">Conversation Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/examples/mrkl.html">MRKL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/examples/mrkl_chat.html">MRKL Chat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/examples/react.html">ReAct</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/examples/self_ask_with_search.html">Self Ask With Search</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../agents/toolkits.html">Toolkits</a><input class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-27"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/csv.html">CSV Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/jira.html">Jira</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/json.html">JSON Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/openapi.html">OpenAPI agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/openapi_nla.html">Natural Language APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/pandas.html">Pandas Dataframe Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/powerbi.html">PowerBI Dataset Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/python.html">Python Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/sql_database.html">SQL Database Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/vectorstore.html">Vectorstore Agent</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../agents/agent_executors.html">Agent Executors</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/agent_vectorstore.html">How to combine agents and vectorstores</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/async_agent.html">How to use the async API for Agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/chatgpt_clone.html">How to create ChatGPT Clone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/intermediate_steps.html">How to access intermediate steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/max_iterations.html">How to cap the max number of iterations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/max_time_limit.html">How to use a timeout for the agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/sharedmemory_for_tools.html">How to add SharedMemory to an Agent and its Tools</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Use Cases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/personal_assistants.html">Personal Assistants (Agents)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/autonomous_agents.html">Autonomous Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/agent_simulations.html">Agent Simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/question_answering.html">Question Answering over Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/chatbots.html">Chatbots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/tabular.html">Querying Tabular Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/code.html">Code Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/apis.html">Interacting with APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/summarization.html">Summarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/extraction.html">Extraction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../use_cases/evaluation.html">Evaluation</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/agent_benchmarking.html">Agent Benchmarking: Search + Calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/agent_vectordb_sota_pg.html">Agent VectorDB Question Answering Benchmarking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/benchmarking_template.html">Benchmarking Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/data_augmented_question_answering.html">Data Augmented Question Answering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/huggingface_datasets.html">Using Hugging Face Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/llm_math.html">LLM Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/openapi_eval.html">Evaluating an OpenAPI Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/qa_benchmarking_pg.html">Question Answering Benchmarking: Paul Graham Essay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/qa_benchmarking_sota.html">Question Answering Benchmarking: State of the Union Address</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/qa_generation.html">QA Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/question_answering.html">Question Answering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/sql_qa_benchmarking_chinook.html">SQL Question Answering Benchmarking: Chinook</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/integrations.html">Integrations</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../reference.html">API References</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../reference/models.html">Models</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/llms.html">LLMs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/chat_models.html">Chat Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/embeddings.html">Embeddings</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../reference/prompts.html">Prompts</a><input class="toctree-checkbox" id="toctree-checkbox-32" name="toctree-checkbox-32" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-32"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/prompts.html">PromptTemplates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/example_selector.html">Example Selector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/output_parsers.html">Output Parsers</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../reference/indexes.html">Indexes</a><input class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-33"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/docstore.html">Docstore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/text_splitter.html">Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/document_loaders.html">Document Loaders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/vectorstores.html">Vector Stores</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/retrievers.html">Retrievers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/document_compressors.html">Document Compressors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/document_transformers.html">Document Transformers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/modules/memory.html">Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/modules/chains.html">Chains</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../reference/agents.html">Agents</a><input class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-34"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/agents.html">Agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/tools.html">Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/agent_toolkits.html">Agent Toolkits</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/modules/utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/modules/experimental.html">Experimental Modules</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ecosystem</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../ecosystem.html">LangChain Ecosystem</a><input class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-35"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/ai21.html">AI21 Labs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/aim_tracking.html">Aim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/analyticdb.html">AnalyticDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/apify.html">Apify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/atlas.html">AtlasDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/bananadev.html">Banana</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/cerebriumai.html">CerebriumAI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/chroma.html">Chroma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/clearml_tracking.html">ClearML Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/cohere.html">Cohere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/comet_tracking.html">Comet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/databerry.html">Databerry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/deepinfra.html">DeepInfra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/deeplake.html">Deep Lake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/forefrontai.html">ForefrontAI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/google_search.html">Google Search Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/google_serper.html">Google Serper Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/gooseai.html">GooseAI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/gpt4all.html">GPT4All</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/graphsignal.html">Graphsignal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/hazy_research.html">Hazy Research</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/helicone.html">Helicone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/huggingface.html">Hugging Face</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/jina.html">Jina</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/llamacpp.html">Llama.cpp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/milvus.html">Milvus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/modal.html">Modal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/myscale.html">MyScale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/nlpcloud.html">NLPCloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/openai.html">OpenAI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/opensearch.html">OpenSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/petals.html">Petals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/pgvector.html">PGVector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/pinecone.html">Pinecone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/predictionguard.html">Prediction Guard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/promptlayer.html">PromptLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/qdrant.html">Qdrant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/replicate.html">Replicate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/runhouse.html">Runhouse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/rwkv.html">RWKV-4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/searx.html">SearxNG Search API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/serpapi.html">SerpAPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/stochasticai.html">StochasticAI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/unstructured.html">Unstructured</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/wandb_tracking.html">Weights &amp; Biases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/weaviate.html">Weaviate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/wolfram_alpha.html">Wolfram Alpha Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/writer.html">Writer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/yeagerai.html">Yeager.ai</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/zilliz.html">Zilliz</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/hwchase17/langchain-hub">LangChainHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gallery.html">LangChain Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployments.html">Deployments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tracing.html">Tracing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/6adMQxSpJS">Discord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../youtube.html">YouTube</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://forms.gle/57d8AmXBYp8PP8tZA">Production Support</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+  <div id="ethical-ad-placement"
+       class="flat"
+       data-ea-publisher="readthedocs"
+       data-ea-type="readthedocs-sidebar"
+       data-ea-manual="true">
+  </div>
+</div>
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/hwchase17/langchain" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../_sources/modules/indexes/document_loaders/examples/hugging_face_dataset.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>HuggingFace dataset loader</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="huggingface-dataset-loader">
+<h1>HuggingFace dataset loader<a class="headerlink" href="#huggingface-dataset-loader" title="Permalink to this headline">#</a></h1>
+<p>This notebook shows how to load Hugging Face Hub datasets to LangChain.</p>
+<p>The Hugging Face Hub hosts a large number of community-curated datasets for a diverse range of tasks such as translation, automatic speech recognition, and image classification.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain.document_loaders</span> <span class="kn">import</span> <span class="n">HuggingFaceDatasetLoader</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;imdb&quot;</span>
+<span class="n">page_content_column</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
+
+
+<span class="n">loader</span><span class="o">=</span><span class="n">HuggingFaceDatasetLoader</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span><span class="n">page_content_column</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[:</span><span class="mi">15</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(page_content=&#39;I rented I AM CURIOUS-YELLOW from my video store because of all the controversy that surrounded it when it was first released in 1967. I also heard that at first it was seized by U.S. customs if it ever tried to enter this country, therefore being a fan of films considered &quot;controversial&quot; I really had to see this for myself.&lt;br /&gt;&lt;br /&gt;The plot is centered around a young Swedish drama student named Lena who wants to learn everything she can about life. In particular she wants to focus her attentions to making some sort of documentary on what the average Swede thought about certain political issues such as the Vietnam War and race issues in the United States. In between asking politicians and ordinary denizens of Stockholm about their opinions on politics, she has sex with her drama teacher, classmates, and married men.&lt;br /&gt;&lt;br /&gt;What kills me about I AM CURIOUS-YELLOW is that 40 years ago, this was considered pornographic. Really, the sex and nudity scenes are few and far between, even then it\&#39;s not shot like some cheaply made porno. While my countrymen mind find it shocking, in reality sex and nudity are a major staple in Swedish cinema. Even Ingmar Bergman, arguably their answer to good old boy John Ford, had sex scenes in his films.&lt;br /&gt;&lt;br /&gt;I do commend the filmmakers for the fact that any sex shown in the film is shown for artistic purposes rather than just to shock people and make money to be shown in pornographic theaters in America. I AM CURIOUS-YELLOW is a good film for anyone wanting to study the meat and potatoes (no pun intended) of Swedish cinema. But really, this film doesn\&#39;t have much of a plot.&#39;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&#39;&quot;I Am Curious: Yellow&quot; is a risible and pretentious steaming pile. It doesn\&#39;t matter what one\&#39;s political views are because this film can hardly be taken seriously on any level. As for the claim that frontal male nudity is an automatic NC-17, that isn\&#39;t true. I\&#39;ve seen R-rated films with male nudity. Granted, they only offer some fleeting views, but where are the R-rated films with gaping vulvas and flapping labia? Nowhere, because they don\&#39;t exist. The same goes for those crappy cable shows: schlongs swinging in the breeze but not a clitoris in sight. And those pretentious indie movies like The Brown Bunny, in which we\&#39;re treated to the site of Vincent Gallo\&#39;s throbbing johnson, but not a trace of pink visible on Chloe Sevigny. Before crying (or implying) &quot;double-standard&quot; in matters of nudity, the mentally obtuse should take into account one unavoidably obvious anatomical difference between men and women: there are no genitals on display when actresses appears nude, and the same cannot be said for a man. In fact, you generally won\&#39;t see female genitals in an American film in anything short of porn or explicit erotica. This alleged double-standard is less a double standard than an admittedly depressing ability to come to terms culturally with the insides of women\&#39;s bodies.&#39;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&quot;If only to avoid making this type of film in the future. This film is interesting as an experiment but tells no cogent story.&lt;br /&gt;&lt;br /&gt;One might feel virtuous for sitting thru it because it touches on so many IMPORTANT issues but it does so without any discernable motive. The viewer comes away with no new perspectives (unless one comes up with one while one&#39;s mind wanders, as it will invariably do during this pointless film).&lt;br /&gt;&lt;br /&gt;One might better spend one&#39;s time staring out a window at a tree growing.&lt;br /&gt;&lt;br /&gt;&quot;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&quot;This film was probably inspired by Godard&#39;s Masculin, féminin and I urge you to see that film instead.&lt;br /&gt;&lt;br /&gt;The film has two strong elements and those are, (1) the realistic acting (2) the impressive, undeservedly good, photo. Apart from that, what strikes me most is the endless stream of silliness. Lena Nyman has to be most annoying actress in the world. She acts so stupid and with all the nudity in this film,...it&#39;s unattractive. Comparing to Godard&#39;s film, intellectuality has been replaced with stupidity. Without going too far on this subject, I would say that follows from the difference in ideals between the French and the Swedish society.&lt;br /&gt;&lt;br /&gt;A movie of its time, and place. 2/10.&quot;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&#39;Oh, brother...after hearing about this ridiculous film for umpteen years all I can think of is that old Peggy Lee song..&lt;br /&gt;&lt;br /&gt;&quot;Is that all there is??&quot; ...I was just an early teen when this smoked fish hit the U.S. I was too young to get in the theater (although I did manage to sneak into &quot;Goodbye Columbus&quot;). Then a screening at a local film museum beckoned - Finally I could see this film, except now I was as old as my parents were when they schlepped to see it!!&lt;br /&gt;&lt;br /&gt;The ONLY reason this film was not condemned to the anonymous sands of time was because of the obscenity case sparked by its U.S. release. MILLIONS of people flocked to this stinker, thinking they were going to see a sex film...Instead, they got lots of closeups of gnarly, repulsive Swedes, on-street interviews in bland shopping malls, asinie political pretension...and feeble who-cares simulated sex scenes with saggy, pale actors.&lt;br /&gt;&lt;br /&gt;Cultural icon, holy grail, historic artifact..whatever this thing was, shred it, burn it, then stuff the ashes in a lead box!&lt;br /&gt;&lt;br /&gt;Elite esthetes still scrape to find value in its boring pseudo revolutionary political spewings..But if it weren\&#39;t for the censorship scandal, it would have been ignored, then forgotten.&lt;br /&gt;&lt;br /&gt;Instead, the &quot;I Am Blank, Blank&quot; rhythymed title was repeated endlessly for years as a titilation for porno films (I am Curious, Lavender - for gay films, I Am Curious, Black - for blaxploitation films, etc..) and every ten years or so the thing rises from the dead, to be viewed by a new generation of suckers who want to see that &quot;naughty sex film&quot; that &quot;revolutionized the film industry&quot;...&lt;br /&gt;&lt;br /&gt;Yeesh, avoid like the plague..Or if you MUST see it - rent the video and fast forward to the &quot;dirty&quot; parts, just to get it over with.&lt;br /&gt;&lt;br /&gt;&#39;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&quot;I would put this at the top of my list of films in the category of unwatchable trash! There are films that are bad, but the worst kind are the ones that are unwatchable but you are suppose to like them because they are supposed to be good for you! The sex sequences, so shocking in its day, couldn&#39;t even arouse a rabbit. The so called controversial politics is strictly high school sophomore amateur night Marxism. The film is self-consciously arty in the worst sense of the term. The photography is in a harsh grainy black and white. Some scenes are out of focus or taken from the wrong angle. Even the sound is bad! And some people call this art?&lt;br /&gt;&lt;br /&gt;&quot;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&quot;Whoever wrote the screenplay for this movie obviously never consulted any books about Lucille Ball, especially her autobiography. I&#39;ve never seen so many mistakes in a biopic, ranging from her early years in Celoron and Jamestown to her later years with Desi. I could write a whole list of factual errors, but it would go on for pages. In all, I believe that Lucille Ball is one of those inimitable people who simply cannot be portrayed by anyone other than themselves. If I were Lucie Arnaz and Desi, Jr., I would be irate at how many mistakes were made in this film. The filmmakers tried hard, but the movie seems awfully sloppy to me.&quot;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&#39;When I first saw a glimpse of this movie, I quickly noticed the actress who was playing the role of Lucille Ball. Rachel York\&#39;s portrayal of Lucy is absolutely awful. Lucille Ball was an astounding comedian with incredible talent. To think about a legend like Lucille Ball being portrayed the way she was in the movie is horrendous. I cannot believe out of all the actresses in the world who could play a much better Lucy, the producers decided to get Rachel York. She might be a good actress in other roles but to play the role of Lucille Ball is tough. It is pretty hard to find someone who could resemble Lucille Ball, but they could at least find someone a bit similar in looks and talent. If you noticed York\&#39;s portrayal of Lucy in episodes of I Love Lucy like the chocolate factory or vitavetavegamin, nothing is similar in any way-her expression, voice, or movement.&lt;br /&gt;&lt;br /&gt;To top it all off, Danny Pino playing Desi Arnaz is horrible. Pino does not qualify to play as Ricky. He\&#39;s small and skinny, his accent is unreal, and once again, his acting is unbelievable. Although Fred and Ethel were not similar either, they were not as bad as the characters of Lucy and Ricky.&lt;br /&gt;&lt;br /&gt;Overall, extremely horrible casting and the story is badly told. If people want to understand the real life situation of Lucille Ball, I suggest watching A&amp;E Biography of Lucy and Desi, read the book from Lucille Ball herself, or PBS\&#39; American Masters: Finding Lucy. If you want to see a docudrama, &quot;Before the Laughter&quot; would be a better choice. The casting of Lucille Ball and Desi Arnaz in &quot;Before the Laughter&quot; is much better compared to this. At least, a similar aspect is shown rather than nothing.&#39;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&#39;Who are these &quot;They&quot;- the actors? the filmmakers? Certainly couldn\&#39;t be the audience- this is among the most air-puffed productions in existence. It\&#39;s the kind of movie that looks like it was a lot of fun to shoot\x97 TOO much fun, nobody is getting any actual work done, and that almost always makes for a movie that\&#39;s no fun to watch.&lt;br /&gt;&lt;br /&gt;Ritter dons glasses so as to hammer home his character\&#39;s status as a sort of doppleganger of the bespectacled Bogdanovich; the scenes with the breezy Ms. Stratten are sweet, but have an embarrassing, look-guys-I\&#39;m-dating-the-prom-queen feel to them. Ben Gazzara sports his usual cat\&#39;s-got-canary grin in a futile attempt to elevate the meager plot, which requires him to pursue Audrey Hepburn with all the interest of a narcoleptic at an insomnia clinic. In the meantime, the budding couple\&#39;s respective children (nepotism alert: Bogdanovich\&#39;s daughters) spew cute and pick up some fairly disturbing pointers on \&#39;love\&#39; while observing their parents. (Ms. Hepburn, drawing on her dignity, manages to rise above the proceedings- but she has the monumental challenge of playing herself, ostensibly.) Everybody looks great, but so what? It\&#39;s a movie and we can expect that much, if that\&#39;s what you\&#39;re looking for you\&#39;d be better off picking up a copy of Vogue.&lt;br /&gt;&lt;br /&gt;Oh- and it has to be mentioned that Colleen Camp thoroughly annoys, even apart from her singing, which, while competent, is wholly unconvincing... the country and western numbers are woefully mismatched with the standards on the soundtrack. Surely this is NOT what Gershwin (who wrote the song from which the movie\&#39;s title is derived) had in mind; his stage musicals of the 20\&#39;s may have been slight, but at least they were long on charm. &quot;They All Laughed&quot; tries to coast on its good intentions, but nobody- least of all Peter Bogdanovich - has the good sense to put on the brakes.&lt;br /&gt;&lt;br /&gt;Due in no small part to the tragic death of Dorothy Stratten, this movie has a special place in the heart of Mr. Bogdanovich- he even bought it back from its producers, then distributed it on his own and went bankrupt when it didn\&#39;t prove popular. His rise and fall is among the more sympathetic and tragic of Hollywood stories, so there\&#39;s no joy in criticizing the film... there _is_ real emotional investment in Ms. Stratten\&#39;s scenes. But &quot;Laughed&quot; is a faint echo of &quot;The Last Picture Show&quot;, &quot;Paper Moon&quot; or &quot;What\&#39;s Up, Doc&quot;- following &quot;Daisy Miller&quot; and &quot;At Long Last Love&quot;, it was a thundering confirmation of the phase from which P.B. has never emerged.&lt;br /&gt;&lt;br /&gt;All in all, though, the movie is harmless, only a waste of rental. I want to watch people having a good time, I\&#39;ll go to the park on a sunny day. For filmic expressions of joy and love, I\&#39;ll stick to Ernest Lubitsch and Jaques Demy...&#39;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&quot;This is said to be a personal film for Peter Bogdonavitch. He based it on his life but changed things around to fit the characters, who are detectives. These detectives date beautiful models and have no problem getting them. Sounds more like a millionaire playboy filmmaker than a detective, doesn&#39;t it? This entire movie was written by Peter, and it shows how out of touch with real people he was. You&#39;re supposed to write what you know, and he did that, indeed. And leaves the audience bored and confused, and jealous, for that matter. This is a curio for people who want to see Dorothy Stratten, who was murdered right after filming. But Patti Hanson, who would, in real life, marry Keith Richards, was also a model, like Stratten, but is a lot better and has a more ample part. In fact, Stratten&#39;s part seemed forced; added. She doesn&#39;t have a lot to do with the story, which is pretty convoluted to begin with. All in all, every character in this film is somebody that very few people can relate with, unless you&#39;re millionaire from Manhattan with beautiful supermodels at your beckon call. For the rest of us, it&#39;s an irritating snore fest. That&#39;s what happens when you&#39;re out of touch. You entertain your few friends with inside jokes, and bore all the rest.&quot;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&#39;It was great to see some of my favorite stars of 30 years ago including John Ritter, Ben Gazarra and Audrey Hepburn. They looked quite wonderful. But that was it. They were not given any characters or good lines to work with. I neither understood or cared what the characters were doing.&lt;br /&gt;&lt;br /&gt;Some of the smaller female roles were fine, Patty Henson and Colleen Camp were quite competent and confident in their small sidekick parts. They showed some talent and it is sad they didn\&#39;t go on to star in more and better films. Sadly, I didn\&#39;t think Dorothy Stratten got a chance to act in this her only important film role.&lt;br /&gt;&lt;br /&gt;The film appears to have some fans, and I was very open-minded when I started watching it. I am a big Peter Bogdanovich fan and I enjoyed his last movie, &quot;Cat\&#39;s Meow&quot; and all his early ones from &quot;Targets&quot; to &quot;Nickleodeon&quot;. So, it really surprised me that I was barely able to keep awake watching this one.&lt;br /&gt;&lt;br /&gt;It is ironic that this movie is about a detective agency where the detectives and clients get romantically involved with each other. Five years later, Bogdanovich\&#39;s ex-girlfriend, Cybil Shepherd had a hit television series called &quot;Moonlighting&quot; stealing the story idea from Bogdanovich. Of course, there was a great difference in that the series relied on tons of witty dialogue, while this tries to make do with slapstick and a few screwball lines.&lt;br /&gt;&lt;br /&gt;Bottom line: It ain\&#39;t no &quot;Paper Moon&quot; and only a very pale version of &quot;What\&#39;s Up, Doc&quot;.&#39;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&quot;I can&#39;t believe that those praising this movie herein aren&#39;t thinking of some other film. I was prepared for the possibility that this would be awful, but the script (or lack thereof) makes for a film that&#39;s also pointless. On the plus side, the general level of craft on the part of the actors and technical crew is quite competent, but when you&#39;ve got a sow&#39;s ear to work with you can&#39;t make a silk purse. Ben G fans should stick with just about any other movie he&#39;s been in. Dorothy S fans should stick to Galaxina. Peter B fans should stick to Last Picture Show and Target. Fans of cheap laughs at the expense of those who seem to be asking for it should stick to Peter B&#39;s amazingly awful book, Killing of the Unicorn.&quot;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&#39;Never cast models and Playboy bunnies in your films! Bob Fosse\&#39;s &quot;Star 80&quot; about Dorothy Stratten, of whom Bogdanovich was obsessed enough to have married her SISTER after her murder at the hands of her low-life husband, is a zillion times more interesting than Dorothy herself on the silver screen. Patty Hansen is no actress either..I expected to see some sort of lost masterpiece a la Orson Welles but instead got Audrey Hepburn cavorting in jeans and a god-awful &quot;poodlesque&quot; hair-do....Very disappointing....&quot;Paper Moon&quot; and &quot;The Last Picture Show&quot; I could watch again and again. This clunker I could barely sit through once. This movie was reputedly not released because of the brouhaha surrounding Ms. Stratten\&#39;s tawdry death; I think the real reason was because it was so bad!&#39;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&quot;Its not the cast. A finer group of actors, you could not find. Its not the setting. The director is in love with New York City, and by the end of the film, so are we all! Woody Allen could not improve upon what Bogdonovich has done here. If you are going to fall in love, or find love, Manhattan is the place to go. No, the problem with the movie is the script. There is none. The actors fall in love at first sight, words are unnecessary. In the director&#39;s own experience in Hollywood that is what happens when they go to work on the set. It is reality to him, and his peers, but it is a fantasy to most of us in the real world. So, in the end, the movie is hollow, and shallow, and message-less.&quot;, metadata={&#39;label&#39;: 0}),
+ Document(page_content=&#39;Today I found &quot;They All Laughed&quot; on VHS on sale in a rental. It was a really old and very used VHS, I had no information about this movie, but I liked the references listed on its cover: the names of Peter Bogdanovich, Audrey Hepburn, John Ritter and specially Dorothy Stratten attracted me, the price was very low and I decided to risk and buy it. I searched IMDb, and the User Rating of 6.0 was an excellent reference. I looked in &quot;Mick Martin &amp; Marsha Porter Video &amp; DVD Guide 2003&quot; and \x96 wow \x96 four stars! So, I decided that I could not waste more time and immediately see it. Indeed, I have just finished watching &quot;They All Laughed&quot; and I found it a very boring overrated movie. The characters are badly developed, and I spent lots of minutes to understand their roles in the story. The plot is supposed to be funny (private eyes who fall in love for the women they are chasing), but I have not laughed along the whole story. The coincidences, in a huge city like New York, are ridiculous. Ben Gazarra as an attractive and very seductive man, with the women falling for him as if her were a Brad Pitt, Antonio Banderas or George Clooney, is quite ridiculous. In the end, the greater attractions certainly are the presence of the Playboy centerfold and playmate of the year Dorothy Stratten, murdered by her husband pretty after the release of this movie, and whose life was showed in &quot;Star 80&quot; and &quot;Death of a Centerfold: The Dorothy Stratten Story&quot;; the amazing beauty of the sexy Patti Hansen, the future Mrs. Keith Richards; the always wonderful, even being fifty-two years old, Audrey Hepburn; and the song &quot;Amigo&quot;, from Roberto Carlos. Although I do not like him, Roberto Carlos has been the most popular Brazilian singer since the end of the 60\&#39;s and is called by his fans as &quot;The King&quot;. I will keep this movie in my collection only because of these attractions (manly Dorothy Stratten). My vote is four.&lt;br /&gt;&lt;br /&gt;Title (Brazil): &quot;Muito Riso e Muita Alegria&quot; (&quot;Many Laughs and Lots of Happiness&quot;)&#39;, metadata={&#39;label&#39;: 0})]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">#</a></h2>
+<p>In this example, we use data from a dataset to answer a question</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain.indexes</span> <span class="kn">import</span> <span class="n">VectorstoreIndexCreator</span>
+<span class="kn">from</span> <span class="nn">langchain.document_loaders.hugging_face_dataset</span> <span class="kn">import</span> <span class="n">HuggingFaceDatasetLoader</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset_name</span><span class="o">=</span><span class="s2">&quot;tweet_eval&quot;</span>
+<span class="n">page_content_column</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
+<span class="n">name</span><span class="o">=</span><span class="s2">&quot;stance_climate&quot;</span>
+
+
+<span class="n">loader</span><span class="o">=</span><span class="n">HuggingFaceDatasetLoader</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span><span class="n">page_content_column</span><span class="p">,</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="n">VectorstoreIndexCreator</span><span class="p">()</span><span class="o">.</span><span class="n">from_loaders</span><span class="p">([</span><span class="n">loader</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found cached dataset tweet_eval
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "4b10969d08df4e6792eaafc6d41fe366", "version_major": 2, "version_minor": 0}</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Using embedded DuckDB without persistence: data will be transient
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;What are the most used hashtag?&quot;</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39; The most used hashtags in this context are #UKClimate2015, #Sustainability, #TakeDownTheFlag, #LoveWins, #CSOTA, #ClimateSummitoftheAmericas, #SM, and #SocialMedia.&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="html.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">HTML</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ifixit.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">iFixit</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Harrison Chase
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Harrison Chase.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Apr 25, 2023.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

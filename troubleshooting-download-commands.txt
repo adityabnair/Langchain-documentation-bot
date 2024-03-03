@@ -1,0 +1,4 @@
+wget -r -A.html -P langchain-docs https://api.python.langchain.com/en/latest/api_reference.html
+!wget -r -A.html -P langchain-docs https://api.python.langchain.com/en/latest/api_reference.html
+wget -r --no-parent --html-extension -P langchain-docs https://api.python.langchain.com/en/latest/api_reference.html
+wget -r -A.html -P langchain-docs https://api.python.langchain.com/en/latest/api_reference.html

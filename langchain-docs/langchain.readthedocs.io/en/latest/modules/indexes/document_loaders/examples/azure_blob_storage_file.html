@@ -1,0 +1,960 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Azure Blob Storage File &#8212; 🦜🔗 LangChain 0.0.148</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="/_/static/css/badge_only.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../../../_static/js/mendablesearch.js"></script>
+    <script async="async" src="/_/static/javascript/readthedocs-doc-embed.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/indexes/document_loaders/examples/azure_blob_storage_file';</script>
+    <link rel="canonical" href="https://python.langchain.com/en/latest/modules/indexes/document_loaders/examples/azure_blob_storage_file.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="BigQuery Loader" href="bigquery.html" />
+    <link rel="prev" title="Azure Blob Storage Container" href="azure_blob_storage_container.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  
+<!-- RTD Extra Head -->
+
+<link rel="stylesheet" href="/_/static/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="application/json" id="READTHEDOCS_DATA">{"ad_free": false, "api_host": "https://readthedocs.org", "build_date": "2023-04-25T05:31:01Z", "builder": "sphinx", "canonical_url": null, "commit": "bee59b46", "docroot": "/docs/", "features": {"docsearch_disabled": false}, "global_analytics_code": "UA-17997319-1", "language": "en", "page": "modules/indexes/document_loaders/examples/azure_blob_storage_file", "programming_language": "words", "project": "langchain", "proxied_api_host": "/_", "source_suffix": ".ipynb", "subprojects": {}, "theme": "sphinx_book_theme", "user_analytics_code": "", "version": "latest"}</script>
+
+<!--
+Using this variable directly instead of using `JSON.parse` is deprecated.
+The READTHEDOCS_DATA global variable will be removed in the future.
+-->
+<script type="text/javascript">
+READTHEDOCS_DATA = JSON.parse(document.getElementById('READTHEDOCS_DATA').innerHTML);
+</script>
+
+<script type="text/javascript" src="/_/static/javascript/readthedocs-analytics.js" async="async"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">🦜🔗 LangChain 0.0.148</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting_started/getting_started.html">Quickstart Guide</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../models.html">Models</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../models/llms.html">LLMs</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/llms/getting_started.html">Getting Started</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../models/llms/how_to_guides.html">Generic Functionality</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/async_llm.html">How to use the async API for LLMs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/custom_llm.html">How to write a custom LLM wrapper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/fake_llm.html">How (and why) to use the fake LLM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/llm_caching.html">How to cache LLM calls</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/llm_serialization.html">How to serialize LLM classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/streaming_llm.html">How to stream LLM and Chat Model responses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/examples/token_usage_tracking.html">How to track token usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../models/llms/integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/ai21.html">AI21</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/aleph_alpha.html">Aleph Alpha</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/anthropic_example.html">Anthropic</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/azure_openai_example.html">Azure OpenAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/banana.html">Banana</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/cerebriumai_example.html">CerebriumAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/cohere.html">Cohere</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/deepinfra_example.html">DeepInfra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/forefrontai_example.html">ForefrontAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/gooseai_example.html">GooseAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/gpt4all.html">GPT4All</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/huggingface_hub.html">Hugging Face Hub</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/huggingface_pipelines.html">Hugging Face Local Pipelines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/llamacpp.html">Llama-cpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/manifest.html">Manifest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/modal.html">Modal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/nlpcloud.html">NLP Cloud</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/openai.html">OpenAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/petals_example.html">Petals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/predictionguard.html">PredictionGuard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/promptlayer_openai.html">PromptLayer OpenAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/replicate.html">Replicate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/runhouse.html">Runhouse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/sagemaker.html">SageMakerEndpoint</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/stochasticai.html">StochasticAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/llms/integrations/writer.html">Writer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/llms.html">Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../models/chat.html">Chat Models</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/chat/getting_started.html">Getting Started</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../models/chat/how_to_guides.html">How-To Guides</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/chat/examples/few_shot_examples.html">How to use few shot examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/chat/examples/streaming.html">How to stream responses</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../models/chat/integrations.html">Integrations</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/chat/integrations/azure_chat_openai.html">Azure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/chat/integrations/openai.html">OpenAI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../models/chat/integrations/promptlayer_chatopenai.html">PromptLayer ChatOpenAI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../models/text_embedding.html">Text Embedding Models</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/aleph_alpha.html">Aleph Alpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/azureopenai.html">AzureOpenAI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/cohere.html">Cohere</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/fake.html">Fake Embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/huggingfacehub.html">Hugging Face Hub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/instruct_embeddings.html">InstructEmbeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/jina.html">Jina</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/llamacpp.html">Llama-cpp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/openai.html">OpenAI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/sagemaker-endpoint.html">SageMaker Endpoint Embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/self-hosted.html">Self Hosted Embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/sentence_transformers.html">Sentence Transformers Embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../models/text_embedding/examples/tensorflowhub.html">TensorflowHub</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../prompts.html">Prompts</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../prompts/prompt_templates.html">Prompt Templates</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/prompt_templates/getting_started.html">Getting Started</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../prompts/prompt_templates/how_to_guides.html">How-To Guides</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../prompts/prompt_templates/examples/custom_prompt_template.html">How to create a custom prompt template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../prompts/prompt_templates/examples/few_shot_examples.html">How to create a prompt template that uses few shot examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../prompts/prompt_templates/examples/partial.html">How to work with partial Prompt Templates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../prompts/prompt_templates/examples/prompt_serialization.html">How to serialize prompts</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../reference/prompts.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/modules/prompts.html">PromptTemplates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/modules/example_selector.html">Example Selector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../reference/modules/output_parsers.html">Output Parsers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../prompts/chat_prompt_template.html">Chat Prompt Template</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../prompts/example_selectors.html">Example Selectors</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/example_selectors/examples/custom_example_selector.html">How to create a custom example selector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/example_selectors/examples/length_based.html">LengthBased ExampleSelector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/example_selectors/examples/mmr.html">Maximal Marginal Relevance ExampleSelector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/example_selectors/examples/ngram_overlap.html">NGram Overlap ExampleSelector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/example_selectors/examples/similarity.html">Similarity ExampleSelector</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../prompts/output_parsers.html">Output Parsers</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/output_parsers/getting_started.html">Output Parsers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/output_parsers/examples/comma_separated.html">CommaSeparatedListOutputParser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/output_parsers/examples/output_fixing_parser.html">OutputFixingParser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/output_parsers/examples/pydantic.html">PydanticOutputParser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/output_parsers/examples/retry.html">RetryOutputParser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../prompts/output_parsers/examples/structured.html">Structured Output Parser</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../indexes.html">Indexes</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../../document_loaders.html">Document Loaders</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="CoNLL-U.html">CoNLL-U</a></li>
+<li class="toctree-l3"><a class="reference internal" href="airbyte_json.html">Airbyte JSON</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apify_dataset.html">Apify Dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="azlyrics.html">AZLyrics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="azure_blob_storage_container.html">Azure Blob Storage Container</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Azure Blob Storage File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bigquery.html">BigQuery Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bilibili.html">Bilibili</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blackboard.html">Blackboard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chatgpt_loader.html">ChatGPT Data Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="college_confidential.html">College Confidential</a></li>
+<li class="toctree-l3"><a class="reference internal" href="confluence.html">Confluence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="copypaste.html">Copy Paste</a></li>
+<li class="toctree-l3"><a class="reference internal" href="csv.html">CSV Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dataframe.html">DataFrame Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="diffbot.html">Diffbot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="directory_loader.html">Directory Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="discord_loader.html">Discord</a></li>
+<li class="toctree-l3"><a class="reference internal" href="duckdb.html">DuckDB Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="email.html">Email</a></li>
+<li class="toctree-l3"><a class="reference internal" href="epub.html">EPubs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="evernote.html">EverNote</a></li>
+<li class="toctree-l3"><a class="reference internal" href="facebook_chat.html">Facebook Chat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="figma.html">Figma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gcs_directory.html">GCS Directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gcs_file.html">GCS File Storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git.html">Git</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gitbook.html">GitBook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="googledrive.html">Google Drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gutenberg.html">Gutenberg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hn.html">Hacker News</a></li>
+<li class="toctree-l3"><a class="reference internal" href="html.html">HTML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hugging_face_dataset.html">HuggingFace dataset loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ifixit.html">iFixit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="image.html">Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="image_captions.html">Image captions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="imsdb.html">IMSDb</a></li>
+<li class="toctree-l3"><a class="reference internal" href="markdown.html">Markdown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebook.html">Notebook</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notion.html">Notion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notiondb.html">Notion DB Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="obsidian.html">Obsidian</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pdf.html">PDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="powerpoint.html">PowerPoint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="readthedocs_documentation.html">ReadTheDocs Documentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roam.html">Roam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="s3_directory.html">s3 Directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="s3_file.html">s3 File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sitemap.html">Sitemap Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="slack_directory.html">Slack (Local Exported Zipfile)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="srt.html">Subtitle Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="telegram.html">Telegram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="twitter.html">Twitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unstructured_file.html">Unstructured File Loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="url.html">URL</a></li>
+
+
+<li class="toctree-l3"><a class="reference internal" href="web_base.html">Web Base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="whatsapp_chat.html">WhatsApp Chat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="word_document.html">Word Documents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="youtube.html">YouTube</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../text_splitters.html">Text Splitters</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-17"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/getting_started.html">Getting Started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/character_text_splitter.html">Character Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/huggingface_length_function.html">Hugging Face Length Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/latex.html">Latex Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/markdown.html">Markdown Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/nltk.html">NLTK Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/python.html">Python Code Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/recursive_text_splitter.html">RecursiveCharacterTextSplitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/spacy.html">Spacy Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/tiktoken.html">tiktoken (OpenAI) Length Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../text_splitters/examples/tiktoken_splitter.html">TiktokenText Splitter</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../vectorstores.html">Vectorstores</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-18"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/getting_started.html">Getting Started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/analyticdb.html">AnalyticDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/annoy.html">Annoy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/atlas.html">AtlasDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/chroma.html">Chroma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/deeplake.html">Deep Lake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/elasticsearch.html">ElasticSearch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/faiss.html">FAISS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/milvus.html">Milvus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/myscale.html">MyScale</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/opensearch.html">OpenSearch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/pgvector.html">PGVector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/pinecone.html">Pinecone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/qdrant.html">Qdrant</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/redis.html">Redis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/supabase.html">SupabaseVectorStore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/weaviate.html">Weaviate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vectorstores/examples/zilliz.html">Zilliz</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../retrievers.html">Retrievers</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-19"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/chatgpt-plugin-retriever.html">ChatGPT Plugin Retriever</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/contextual-compression.html">Contextual Compression Retriever</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/databerry.html">Databerry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/elastic_search_bm25.html">ElasticSearch BM25</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/metal.html">Metal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/pinecone_hybrid_search.html">Pinecone Hybrid Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/svm_retriever.html">SVM Retriever</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/tf_idf_retriever.html">TF-IDF Retriever</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/time_weighted_vectorstore.html">Time Weighted VectorStore Retriever</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/vectorstore-retriever.html">VectorStore Retriever</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../retrievers/examples/weaviate-hybrid.html">Weaviate Hybrid Search</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../memory.html">Memory</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-20"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../memory/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../memory/how_to_guides.html">How-To Guides</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-21"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/buffer.html">ConversationBufferMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/buffer_window.html">ConversationBufferWindowMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/entity_summary_memory.html">Entity Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/kg.html">Conversation Knowledge Graph Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/summary.html">ConversationSummaryMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/summary_buffer.html">ConversationSummaryBufferMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/token_buffer.html">ConversationTokenBufferMemory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/types/vectorstore_retriever_memory.html">VectorStore-Backed Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/adding_memory.html">How to add Memory to an LLMChain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/adding_memory_chain_multiple_inputs.html">How to add memory to a Multi-Input Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/agent_with_memory.html">How to add Memory to an Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/agent_with_memory_in_db.html">Adding Message Memory backed by a database to an Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/conversational_customization.html">How to customize conversational memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/custom_memory.html">How to create a custom Memory class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/motorhead_memory.html">Motörhead Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/multiple_memory.html">How to use multiple memory classes in the same chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/postgres_chat_message_history.html">Postgres Chat Message History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../memory/examples/redis_chat_message_history.html">Redis Chat Message History</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../chains.html">Chains</a><input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-22"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../chains/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../chains/how_to_guides.html">How-To Guides</a><input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-23"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/generic/async_chain.html">Async API for Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/generic/from_hub.html">Loading from LangChainHub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/generic/llm_chain.html">LLM Chain</a></li>
+
+
+
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/generic/sequential_chains.html">Sequential Chains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/generic/serialization.html">Serialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/generic/transformation.html">Transformation Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/analyze_document.html">Analyze Document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/chat_vector_db.html">Chat Over Documents with Chat History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/graph_qa.html">Graph QA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/hyde.html">Hypothetical Document Embeddings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/qa_with_sources.html">Question Answering with Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/question_answering.html">Question Answering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/summarize.html">Summarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/vector_db_qa.html">Retrieval Question/Answering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/vector_db_qa_with_sources.html">Retrieval Question Answering with Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/index_examples/vector_db_text_generation.html">Vector DB Text Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/api.html">API Chains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/constitutional_chain.html">Self-Critique Chain with Constitutional AI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/llm_bash.html">BashChain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/llm_checker.html">LLMCheckerChain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/llm_math.html">LLM Math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/llm_requests.html">LLMRequestsChain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/llm_summarization_checker.html">LLMSummarizationCheckerChain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/moderation.html">Moderation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/openapi.html">OpenAPI Chain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/pal.html">PAL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../chains/examples/sqlite.html">SQL Chain example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/modules/chains.html">Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../agents.html">Agents</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-24"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../agents/getting_started.html">Getting Started</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../agents/tools.html">Tools</a><input class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-25"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/getting_started.html">Getting Started</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/custom_tools.html">Defining Custom Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/multi_input_tool.html">Multi-Input Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/tool_input_validation.html">Tool Input Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/apify.html">Apify</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/arxiv.html">Arxiv API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/bash.html">Bash</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/bing_search.html">Bing Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/chatgpt_plugins.html">ChatGPT Plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/ddg.html">DuckDuckGo Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/google_places.html">Google Places</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/google_search.html">Google Search</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/google_serper.html">Google Serper API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/gradio_tools.html">Gradio Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/human_tools.html">Human as a tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/ifttt.html">IFTTT WebHooks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/openweathermap.html">OpenWeatherMap API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/python.html">Python REPL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/requests.html">Requests</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/search_tools.html">Search Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/searx_search.html">SearxNG Search API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/serpapi.html">SerpAPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/wikipedia.html">Wikipedia API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/wolfram_alpha.html">Wolfram Alpha</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/tools/examples/zapier.html">Zapier Natural Language Actions API</a></li>
+
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../agents/agents.html">Agents</a><input class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-26"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/agent_types.html">Agent Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/custom_agent.html">Custom Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/custom_llm_agent.html">Custom LLM Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/custom_llm_chat_agent.html">Custom LLM Agent (with a ChatModel)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/custom_mrkl_agent.html">Custom MRKL Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/custom_multi_action_agent.html">Custom MultiAction Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/custom_agent_with_tool_retrieval.html">Custom Agent with Tool Retrieval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/examples/chat_conversation_agent.html">Conversation Agent (for Chat Models)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/examples/conversational_agent.html">Conversation Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/examples/mrkl.html">MRKL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/examples/mrkl_chat.html">MRKL Chat</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/examples/react.html">ReAct</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agents/examples/self_ask_with_search.html">Self Ask With Search</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../agents/toolkits.html">Toolkits</a><input class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-27"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/csv.html">CSV Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/jira.html">Jira</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/json.html">JSON Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/openapi.html">OpenAPI agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/openapi_nla.html">Natural Language APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/pandas.html">Pandas Dataframe Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/powerbi.html">PowerBI Dataset Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/python.html">Python Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/sql_database.html">SQL Database Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/toolkits/examples/vectorstore.html">Vectorstore Agent</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../agents/agent_executors.html">Agent Executors</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-28"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/agent_vectorstore.html">How to combine agents and vectorstores</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/async_agent.html">How to use the async API for Agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/chatgpt_clone.html">How to create ChatGPT Clone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/intermediate_steps.html">How to access intermediate steps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/max_iterations.html">How to cap the max number of iterations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/max_time_limit.html">How to use a timeout for the agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../agents/agent_executors/examples/sharedmemory_for_tools.html">How to add SharedMemory to an Agent and its Tools</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Use Cases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/personal_assistants.html">Personal Assistants (Agents)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/autonomous_agents.html">Autonomous Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/agent_simulations.html">Agent Simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/question_answering.html">Question Answering over Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/chatbots.html">Chatbots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/tabular.html">Querying Tabular Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/code.html">Code Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/apis.html">Interacting with APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/summarization.html">Summarization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../use_cases/extraction.html">Extraction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../use_cases/evaluation.html">Evaluation</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-29"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/agent_benchmarking.html">Agent Benchmarking: Search + Calculator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/agent_vectordb_sota_pg.html">Agent VectorDB Question Answering Benchmarking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/benchmarking_template.html">Benchmarking Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/data_augmented_question_answering.html">Data Augmented Question Answering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/huggingface_datasets.html">Using Hugging Face Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/llm_math.html">LLM Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/openapi_eval.html">Evaluating an OpenAPI Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/qa_benchmarking_pg.html">Question Answering Benchmarking: Paul Graham Essay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/qa_benchmarking_sota.html">Question Answering Benchmarking: State of the Union Address</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/qa_generation.html">QA Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/question_answering.html">Question Answering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../use_cases/evaluation/sql_qa_benchmarking_chinook.html">SQL Question Answering Benchmarking: Chinook</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/integrations.html">Integrations</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../reference.html">API References</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../reference/models.html">Models</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-31"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/llms.html">LLMs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/chat_models.html">Chat Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/embeddings.html">Embeddings</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../reference/prompts.html">Prompts</a><input class="toctree-checkbox" id="toctree-checkbox-32" name="toctree-checkbox-32" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-32"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/prompts.html">PromptTemplates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/example_selector.html">Example Selector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/output_parsers.html">Output Parsers</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../reference/indexes.html">Indexes</a><input class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-33"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/docstore.html">Docstore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/text_splitter.html">Text Splitter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/document_loaders.html">Document Loaders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/vectorstores.html">Vector Stores</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/retrievers.html">Retrievers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/document_compressors.html">Document Compressors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/document_transformers.html">Document Transformers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/modules/memory.html">Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/modules/chains.html">Chains</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../reference/agents.html">Agents</a><input class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-34"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/agents.html">Agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/tools.html">Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../reference/modules/agent_toolkits.html">Agent Toolkits</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/modules/utilities.html">Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../reference/modules/experimental.html">Experimental Modules</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ecosystem</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../ecosystem.html">LangChain Ecosystem</a><input class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-35"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/ai21.html">AI21 Labs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/aim_tracking.html">Aim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/analyticdb.html">AnalyticDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/apify.html">Apify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/atlas.html">AtlasDB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/bananadev.html">Banana</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/cerebriumai.html">CerebriumAI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/chroma.html">Chroma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/clearml_tracking.html">ClearML Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/cohere.html">Cohere</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/comet_tracking.html">Comet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/databerry.html">Databerry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/deepinfra.html">DeepInfra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/deeplake.html">Deep Lake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/forefrontai.html">ForefrontAI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/google_search.html">Google Search Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/google_serper.html">Google Serper Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/gooseai.html">GooseAI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/gpt4all.html">GPT4All</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/graphsignal.html">Graphsignal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/hazy_research.html">Hazy Research</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/helicone.html">Helicone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/huggingface.html">Hugging Face</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/jina.html">Jina</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/llamacpp.html">Llama.cpp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/milvus.html">Milvus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/modal.html">Modal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/myscale.html">MyScale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/nlpcloud.html">NLPCloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/openai.html">OpenAI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/opensearch.html">OpenSearch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/petals.html">Petals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/pgvector.html">PGVector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/pinecone.html">Pinecone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/predictionguard.html">Prediction Guard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/promptlayer.html">PromptLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/qdrant.html">Qdrant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/replicate.html">Replicate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/runhouse.html">Runhouse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/rwkv.html">RWKV-4</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/searx.html">SearxNG Search API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/serpapi.html">SerpAPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/stochasticai.html">StochasticAI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/unstructured.html">Unstructured</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/wandb_tracking.html">Weights &amp; Biases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/weaviate.html">Weaviate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/wolfram_alpha.html">Wolfram Alpha Wrapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/writer.html">Writer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/yeagerai.html">Yeager.ai</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ecosystem/zilliz.html">Zilliz</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://github.com/hwchase17/langchain-hub">LangChainHub</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../glossary.html">Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../gallery.html">LangChain Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../deployments.html">Deployments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tracing.html">Tracing</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://discord.gg/6adMQxSpJS">Discord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../youtube.html">YouTube</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://forms.gle/57d8AmXBYp8PP8tZA">Production Support</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+  <div id="ethical-ad-placement"
+       class="flat"
+       data-ea-publisher="readthedocs"
+       data-ea-type="readthedocs-sidebar"
+       data-ea-manual="true">
+  </div>
+</div>
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/hwchase17/langchain" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../../_sources/modules/indexes/document_loaders/examples/azure_blob_storage_file.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Azure Blob Storage File</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="azure-blob-storage-file">
+<h1>Azure Blob Storage File<a class="headerlink" href="#azure-blob-storage-file" title="Permalink to this headline">#</a></h1>
+<p>This covers how to load document objects from a Azure Blob Storage file.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">langchain.document_loaders</span> <span class="kn">import</span> <span class="n">AzureBlobStorageFileLoader</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!pip install azure-storage-blob</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loader</span> <span class="o">=</span> <span class="n">AzureBlobStorageFileLoader</span><span class="p">(</span><span class="n">conn_str</span><span class="o">=</span><span class="s1">&#39;&lt;connection string&gt;&#39;</span><span class="p">,</span> <span class="n">container</span><span class="o">=</span><span class="s1">&#39;&lt;container name&gt;&#39;</span><span class="p">,</span> <span class="n">blob_name</span><span class="o">=</span><span class="s1">&#39;&lt;blob name&gt;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Document(page_content=&#39;Lorem ipsum dolor sit amet.&#39;, lookup_str=&#39;&#39;, metadata={&#39;source&#39;: &#39;/var/folders/y6/8_bzdg295ld6s1_97_12m4lr0000gn/T/tmpxvave6wl/fake.docx&#39;}, lookup_index=0)]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="azure_blob_storage_container.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Azure Blob Storage Container</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="bigquery.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">BigQuery Loader</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Harrison Chase
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023, Harrison Chase.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Apr 25, 2023.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div></div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
