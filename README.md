@@ -33,7 +33,7 @@ where the bot was able to get the information from, which further enables the us
 3. The index at Pinecone should have 1536 dimensions and should be of the cosine type for vector matching
 4. Consts.py should be updated with the name of the created Pinecone index
 5. Run ingestion.py to load indexes to Pinecone
-6. Run main.py with the streamlit run <directory to main> command
+6. Run main.py with the ``` streamlit run <directory to main> ``` command
 
 
 ## Acknowledgments
